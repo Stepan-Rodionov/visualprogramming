@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class Vehicle {
+protected:
+    int mileage;         // пробег
+    double fuel;         // количество топлива в баке (в литрах)
+    const double tankCapacity; // вместимость бака (в литрах)
+    const double fuelConsumption; // расход топлива (литры на 100 км)
+public:
+    Vehicle(double capacity, double consumption)
+        : mileage(0), fuel(0), tankCapacity(capacity), fuelConsumption(consumption) {}
+    void drive(int kilometers) {
+        double fuelNeeded = (static_cast<double>(kilometers) / 100.0) * fuelConsumption;
+        if (fuel >= fuelNeeded) {
+            mileage += kilometers;
+            fuel -= fuelNeeded;
+            cout << "Проехали " << kilometers << " км. Осталось топлива: " << fuel << " литров." << endl;
+        }
+        else {
+            cout << "Недостаточно топлива для поездки на " << kilometers << " км." << endl;
+        }
+    }
+    void refuel() {
+        fuel = tankCapacity;
+        cout << "Бак заправлен до полного. Теперь у вас " << fuel << " литров топлива." << endl;
+    }
+    void printStatus() {
+        cout << "Пробег: " << mileage << " км. Осталось топлива: " << fuel << " литров." << endl;
+    }
+};
+class Sedan : public Vehicle {
+public:
+    Sedan() : Vehicle(50.0, 6.5) {} // Легковая машина, бак на 50 литров, расход 6.5 л/100 км
+};
+class Suv : public Vehicle {
+public:
+    Suv() : Vehicle(70.0, 8.0) {} // Внедорожник, бак на 70 литров, расход 8.0 л/100 км
+};
+class Bus : public Vehicle {
+public:
+    Bus() : Vehicle(200.0, 15.0) {} // Автобус, бак на 200 литров, расход 15.0 л/100 км
+};
+int main() {
+    setlocale(LC_ALL, "Russian");
+    Vehicle* vehicles[3] = { new Sedan(), new Suv(), new Bus() };
+    for (int i = 0; i < 3; ++i) {
+        Vehicle* vehicle = vehicles[i];
+        vehicle->refuel();
+        vehicle->printStatus();
+        vehicle->drive(120);
+        vehicle->printStatus();
+        vehicle->drive(420);
+        vehicle->printStatus();
+        vehicle->drive(300);
+        vehicle->printStatus();
+        vehicle->refuel();
+        vehicle->drive(300);
+        vehicle->printStatus();
+        delete vehicle;
+        cout << endl;
+    }
+    return 0;
+}
