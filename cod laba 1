@@ -1,0 +1,45 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    char choice;
+    cout << "Choose what you want to calculate (v - velocity, t - time, d - distance): ";
+    cin >> choice;
+
+    if (choice == 'v') {
+        // Calculate velocity
+        double distance, time;
+        cout << "Enter distance (in kilometers): ";
+        cin >> distance;
+        cout << "Enter time (in hours): ";
+        cin >> time;
+
+        double velocity = distance / time;
+        cout << "Velocity: " << velocity << " km/h" << endl;
+    } else if (choice == 't') {
+        // Calculate time
+        double distance, velocity;
+        cout << "Enter distance (in kilometers): ";
+        cin >> distance;
+        cout << "Enter velocity (in km/h): ";
+        cin >> velocity;
+
+        double time = distance / velocity;
+        cout << "Time: " << time << " hours" << endl;
+    } else if (choice == 'd') {
+        // Calculate distance
+        double velocity, time;
+        cout << "Enter velocity (in km/h): ";
+        cin >> velocity;
+        cout << "Enter time (in hours): ";
+        cin >> time;
+
+        double distance = velocity * time;
+        cout << "Distance: " << distance << " km" << endl;
+    } else {
+        cout << "Invalid choice. Please select 'v', 't', or 'd'." << endl;
+    }
+
+    return 0;
+}
