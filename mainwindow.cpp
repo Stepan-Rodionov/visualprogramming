@@ -33,14 +33,14 @@ void MainWindow::on_calculateButton_clicked()
     if (pulse < 70 || pulse > 150)
     {
         QMessageBox::warning(this, "Проблемы со здоровьем", "У вас проблемы со здоровьем. Нельзя бегать.");
-        return; // Stop further processing if pulse is out of range
+        return;
     }
 
     // Проверяем вес пользователя
     if (ves > 150)
     {
         QMessageBox::warning(this, "Проблемы со здоровьем", "У вас проблемы со здоровьем. Травмоопасно заниматься бегом.");
-        return; // Stop further processing if weight is too high
+        return;
     }
 
     // Проводим расчет калорий (формулу можно изменить)
@@ -53,7 +53,7 @@ void MainWindow::on_calculateButton_clicked()
     QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
 
     // Сохраняем результат в файл на рабочем столе
-    QFile file(desktopPath + "/reportsss.txt");
+    QFile file(desktopPath + "/reporе.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream stream(&file);
@@ -70,6 +70,23 @@ void MainWindow::on_calculateButton_clicked()
         stream << "Количество затраченных калорий: " << calories << "\n";
         file.close();
     }
+
+
+    if (file.open(QIODevice::Append | QIODevice::Text))
+    {
+        QTextStream stream(&file);
+        stream.setCodec("UTF-8");
+
+        stream << "\n\n";
+        stream << "Результат обратного расчета:\n";
+        stream << "Целевое количество калорий: " << ui->txtkolkolor->text().toDouble() << "\n";
+        stream << "Вес: " << ves << " кг\n";
+        stream << "Пульс: " << pulse << " уд/мин\n";
+        stream << "Время бега: " << time << " ч\n";
+        stream << "Дистанция для достижения целевых калорий: " << distance << " км\n";
+
+        file.close();
+    }
 }
 
 void MainWindow::on_reverseCalculateButton_clicked()
@@ -84,14 +101,14 @@ void MainWindow::on_reverseCalculateButton_clicked()
     if (ui->txtpuls->text().toDouble() < 70 || ui->txtpuls->text().toDouble() > 150)
     {
         QMessageBox::warning(this, "Проблемы со здоровьем", "У вас проблемы со здоровьем. Нельзя бегать.");
-        return; // Stop further processing if pulse is out of range
+        return;
     }
 
     // Проверяем вес пользователя
     if (ves > 150)
     {
         QMessageBox::warning(this, "Проблемы со здоровьем", "У вас проблемы со здоровьем. Травмоопасно заниматься бегом.");
-        return; // Stop further processing if weight is too high
+        return;
     }
 
     // Проводим обратный расчет дистанции
